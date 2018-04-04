@@ -1,6 +1,8 @@
 package cl.xamaztian.shrinkquizz1;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -38,7 +40,7 @@ public class LuckyFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        CheckBox chkHappy = view.findViewById(R.id.happyCheckbox);
+        final CheckBox chkHappy = view.findViewById(R.id.happyCheckbox);
         final CheckBox mood = view.findViewById(R.id.moodCheckBox);
         Button button = view.findViewById(R.id.luckyButton);
 
@@ -54,7 +56,22 @@ public class LuckyFragment extends Fragment {
             public void onClick(View view) {
                 boolean answer = mood.isChecked();
                 Log.d("ANSWER", String.valueOf(answer));
+
+                showDialog(new LuckyResult(chkHappy.isChecked()).getLuckyMessage());
             }
         });
+    }
+
+    private void showDialog(String answer) {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+        alertDialog.setTitle("Mensaje del Sistema");
+        alertDialog.setMessage(answer);
+        alertDialog.setPositiveButton("Entendido!", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        alertDialog.show();
     }
 }

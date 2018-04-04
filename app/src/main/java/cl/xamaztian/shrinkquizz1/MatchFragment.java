@@ -1,6 +1,8 @@
 package cl.xamaztian.shrinkquizz1;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -78,7 +80,22 @@ public class MatchFragment extends Fragment {
             public void onClick(View view) {
                 int user = userSb.getProgress();
                 int lover = loverSb.getProgress();
+
+                showDialog(new MatchResult(user, lover).getUserMatch());
             }
         });
+    }
+
+    private void showDialog(String answer) {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+        alertDialog.setTitle("Mensaje de Cupido");
+        alertDialog.setMessage(answer);
+        alertDialog.setPositiveButton("Gracias! Lo Necesitaba!", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        alertDialog.show();
     }
 }
